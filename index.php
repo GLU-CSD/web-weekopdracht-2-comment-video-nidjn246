@@ -17,7 +17,7 @@ if(!empty($_POST)){
     $setReaction = Reactions::setReaction($postArray);
 
     if(isset($setReaction['error']) && $setReaction['error'] != ''){
-        prettyDump($setReaction['error']);
+       echo "Error: you forgot to put your name in. Or your email is not valid";
     }
 
     else {
