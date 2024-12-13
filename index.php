@@ -1,6 +1,6 @@
 <?php
-include("config.php");
-include("reactions.php");
+include "config.php";
+include "reactions.php";
 
 $getReactions = Reactions::getReactions();
 //uncomment de volgende regel om te kijken hoe de array van je reactions eruit ziet
@@ -8,17 +8,21 @@ $getReactions = Reactions::getReactions();
 
 if(!empty($_POST)){
 
-    //dit is een voorbeeld array.  Deze waardes moeten erin staan.
     $postArray = [
-        'name' => "Ieniminie",
-        'email' => "ieniminie@sesamstraat.nl",
-        'message' => "Geweldig dit"
+        'name' =>  $_POST["naam"],
+        'email' => $_POST["email"],
+        'message' => $_POST["commentaar"]
     ];
 
     $setReaction = Reactions::setReaction($postArray);
 
     if(isset($setReaction['error']) && $setReaction['error'] != ''){
         prettyDump($setReaction['error']);
+    }
+
+    else {
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
     }
     
 
@@ -31,13 +35,54 @@ if(!empty($_POST)){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Youtube remake</title>
+    <link rel="stylesheet" href="/web-weekopdracht-2-comment-video-nidjn246/assets/css/style.css">
+    <div class="kaas">
 </head>
-<body>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=twI61ZGDECBr4ums" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<body id="Body">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Oxq8yQAtJlE?si=lsfPl0grMnBLuXTd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    
+    <h2>Send a comment</h2>
+<div>
+    <div>
 
-    <h2>Hieronder komen reacties</h2>
-    <p>Maak hier je eigen pagina van aan de hand van de opdracht</p>
+    <form action="" method="POST">
+        
+    Name: <input id="formfield" type="text" name="naam" value="">
+        
+    </div>
+    
+    <div>
+        
+        Email: <input id="formfield" type="text" name="email" value="">
+    </div>
+    </div>
+
+    <textarea id = "formfield" name="commentaar" cols="26" rows="5"></textarea>
+   <div>
+    <input id="formfield" type="submit" value="Verstuur">
+    </div>
+    </form>
+
+    <div id="commentword">
+        <?php
+    echo "Comments:"
+  
+?>
+
+    </div>
+
+    <div id="comments">
+        <?php
+    foreach($getReactions as $reaction){
+    echo $reaction['name'] . ':<br>' . $reaction['message'] . "<br> <br>"; 
+  }
+?>
+    </div>
+    </div>
 </body>
+</div>
+<?php
+
+?>
 </html>
 
 <?php
